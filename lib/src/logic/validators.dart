@@ -249,9 +249,11 @@ class ShouldInBetweenDatesValidator<KeyType>
     extends FieldValidator<DateTime, KeyType, ShouldInBetweenDatesValidator<KeyType>> {
   final DateTime max;
   final DateTime min;
+  final bool useExtension;
 
   ShouldInBetweenDatesValidator(
       {required this.min,
+       this.useExtension = false, 
       required this.max,
       String Function(ShouldInBetweenDatesValidator<KeyType> validator, Field field)? buildErrorMessage,
       KeyType? key})
@@ -264,7 +266,11 @@ class ShouldInBetweenDatesValidator<KeyType>
 
   @override
   bool isValid(DateTime date) {
-    return (date.isBetween(min, max));
+    if(useExtension){
+      return (date.isBetween(min, max));
+    }else {
+      return (date.compareTo(min) >= 0 && date.compareTo(max) <= 0);
+    }
   }
 
   @override
@@ -419,37 +425,29 @@ class ShouldBeBetweenOrEqualValidator<KeyType>
 }
 
 
-  extension DateTimeExtension on DateTime? {
+  extension DateTimeExtension on DateTime {
   
-  bool? isAfterOrEqualTo(DateTime dateTime) {
-    final date = this;
-    if (date != null) {
-      final isAtSameMomentAs = dateTime.isAtSameMomentAs(date);
-      return isAtSameMomentAs | date.isAfter(dateTime);
-    }
-    return null;
+  bool isAfterOrEqualTo(DateTime dateTime) {
+      final isAtSameMomentAs = dateTime.isAtSameMomentAs(this);
+      return isAtSameMomentAs || isAfter(dateTime);
   }
 
-  bool? isBeforeOrEqualTo(DateTime dateTime) {
+  bool isBeforeOrEqualTo(DateTime dateTime) {
     final date = this;
-    if (date != null) {
+   
       final isAtSameMomentAs = dateTime.isAtSameMomentAs(date);
-      return isAtSameMomentAs | date.isBefore(dateTime);
-    }
-    return null;
+      return isAtSameMomentAs || date.isBefore(dateTime);
+
   }
 
   bool isBetween(
     DateTime fromDateTime,
     DateTime toDateTime,
   ) {
-    final date = this;
-    if (date != null) {
-      final isAfter = date.isAfterOrEqualTo(fromDateTime) ?? false;
-      final isBefore = date.isBeforeOrEqualTo(toDateTime) ?? false;
+      final isAfter = isAfterOrEqualTo(fromDateTime) ;
+      final isBefore = isBeforeOrEqualTo(toDateTime) ;
       return isAfter && isBefore;
     }
-    return false;
-  }
-
+  
+  
 }
