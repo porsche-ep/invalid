@@ -249,11 +249,11 @@ class ShouldInBetweenDatesValidator<KeyType>
     extends FieldValidator<DateTime, KeyType, ShouldInBetweenDatesValidator<KeyType>> {
   final DateTime max;
   final DateTime min;
-  final bool useExtension;
+  final bool isInclusive;
 
   ShouldInBetweenDatesValidator(
       {required this.min,
-       this.useExtension = false, 
+       this.isInclusive = false, 
       required this.max,
       String Function(ShouldInBetweenDatesValidator<KeyType> validator, Field field)? buildErrorMessage,
       KeyType? key})
@@ -266,7 +266,7 @@ class ShouldInBetweenDatesValidator<KeyType>
 
   @override
   bool isValid(DateTime date) {
-    if(useExtension){
+    if(isInclusive){
       return (date.isBetween(min, max));
     }else {
       return (date.compareTo(min) >= 0 && date.compareTo(max) <= 0);
