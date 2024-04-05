@@ -267,9 +267,9 @@ class ShouldInBetweenDatesValidator<KeyType>
   @override
   bool isValid(DateTime date) {
     if(isInclusive){
-      return (date.isBetween(min, max));
-    }else {
       return (date.compareTo(min) >= 0 && date.compareTo(max) <= 0);
+    }else {
+      return (date.compareTo(min) > 0 && date.compareTo(max) < 0);
     }
   }
 
@@ -422,32 +422,4 @@ class ShouldBeBetweenOrEqualValidator<KeyType>
 
   @override
   List<Object?> get props => [...super.props, min, max];
-}
-
-
-  extension DateTimeExtension on DateTime {
-  
-  bool isAfterOrEqualTo(DateTime dateTime) {
-      final isAtSameMomentAs = dateTime.isAtSameMomentAs(this);
-      return isAtSameMomentAs || isAfter(dateTime);
-  }
-
-  bool isBeforeOrEqualTo(DateTime dateTime) {
-    final date = this;
-   
-      final isAtSameMomentAs = dateTime.isAtSameMomentAs(date);
-      return isAtSameMomentAs || date.isBefore(dateTime);
-
-  }
-
-  bool isBetween(
-    DateTime fromDateTime,
-    DateTime toDateTime,
-  ) {
-      final isAfter = isAfterOrEqualTo(fromDateTime) ;
-      final isBefore = isBeforeOrEqualTo(toDateTime) ;
-      return isAfter && isBefore;
-    }
-  
-  
 }

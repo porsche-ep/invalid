@@ -390,6 +390,24 @@ group('ShouldInBetweenDatesValidator', () {
       );
       expect(validator.isValid(DateTime(2022, 12, 31)), true);
     });
+
+    test('valid date equal to min in range (Exclusive)', () {
+      final validator = ShouldInBetweenDatesValidator<DateTime>(
+        min: DateTime(2022, 1, 1),
+        max: DateTime(2022, 12, 31),
+        isInclusive: false,
+      );
+      expect(validator.isValid(DateTime(2022, 1, 1)), false);
+    });
+
+    test('valid date equal to max in range (Exclusive)', () {
+      final validator = ShouldInBetweenDatesValidator<DateTime>(
+        min: DateTime(2022, 1, 1),
+        max: DateTime(2022, 12, 31),
+        isInclusive: false,
+      );
+      expect(validator.isValid(DateTime(2022, 12, 31)), false);
+    });
   });
   });
 }
