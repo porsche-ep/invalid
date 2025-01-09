@@ -3,7 +3,7 @@ description: Package used for input validation.
 version: 0.0.1
 
 environment:
-  sdk: ">=3.3.0 <4.0.0"
+  sdk: ">=3.5.0 <4.0.0"
 
 dependencies:
   flutter:
