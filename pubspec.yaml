@@ -3,14 +3,14 @@ description: Package used for input validation.
 version: 0.0.1
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: ">=3.5.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   bloc: ^8.1.2
   equatable: ^2.0.5
-  intl: ^0.18.0
+  intl: ^0.19.0
   flutter_bloc: ^8.1.3
 
 dev_dependencies:
